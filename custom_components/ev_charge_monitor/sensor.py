@@ -1,5 +1,5 @@
 from homeassistant.components.sensor import SensorEntity
-from homeassistant.const import CURRENCY_DANISH_KRONE
+CURRENCY_DANISH_KRONE = "DKK"
 from .const import DOMAIN
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
