@@ -1,6 +1,7 @@
 sensor:
   - platform: ev_charge_monitor
     charger_entity: sensor.ladeboks_energy
+    price_entity: sensor.elspotpris_dk1
     refund_enabled: true
     refund_rate: 0.87
     monthly_subscription: 79

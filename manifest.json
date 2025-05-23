@@ -2,7 +2,7 @@
   "domain": "ev_charge_monitor",
   "name": "EV Charge Monitor",
   "version": "1.0.0",
-  "documentation": "https://github.com/din-bruger/ev_charge_monitor",
+  "documentation": "https://github.com/gertkjerslev/ev_charge_monitor",
   "dependencies": [],
   "codeowners": [],
   "requirements": ["requests"]
