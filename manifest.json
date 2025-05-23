@@ -2,8 +2,8 @@
   "domain": "ev_charge_monitor",
   "name": "EV Charge Monitor",
   "version": "1.0.0",
-  "documentation": "https://github.com/gertkjerslev/ev_charge_monitor",
+  "documentation": "https://github.com/gertkjerslev/ev_charge_monitor/README.md",
   "dependencies": [],
-  "codeowners": [],
+  "codeowners": ["@GertKjerslev"],
   "requirements": ["requests"]
 }
