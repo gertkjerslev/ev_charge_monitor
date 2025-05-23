@@ -47,4 +47,4 @@ class EVChargeSensor(SensorEntity):
             cost -= refund
             cost += self._monthly_sub / 30  # daglig abonnementsandel
 
-        self._state = r_
+        self._state = round(cost, 2)
