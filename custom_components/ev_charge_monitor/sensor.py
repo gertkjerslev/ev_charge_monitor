@@ -1,6 +1,9 @@
+import logging
 from homeassistant.components.sensor import SensorEntity
+
 CURRENCY_DANISH_KRONE = "DKK"
-from .const import DOMAIN
+
+_LOGGER = logging.getLogger(__name__)
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
     charger_entity = config.get("charger_entity")
@@ -25,26 +28,38 @@ class EVChargeSensor(SensorEntity):
         self._attr_unit_of_measurement = CURRENCY_DANISH_KRONE
         self._state = None
 
+    @property
+    def state(self):
+        return self._state
+
     async def async_update(self):
+        _LOGGER.info("EV Charge Monitor: async_update triggered")
+        _LOGGER.info(f"EV Charge Monitor: Looking up charger_entity: {self._charger_entity}")
+        _LOGGER.info(f"EV Charge Monitor: Looking up price_entity: {self._price_entity}")
+
         charger_state = self._hass.states.get(self._charger_entity)
         price_state = self._hass.states.get(self._price_entity)
 
         if charger_state is None or price_state is None:
+            _LOGGER.warning("EV Charge Monitor: one or both entities are missing.")
             self._state = None
             return
+
+        _LOGGER.info(f"EV Charge Monitor: charger_state = {charger_state.state}, price_state = {price_state.state}")
 
         try:
             kwh = float(charger_state.state)
             spot_price = float(price_state.state)
         except ValueError:
+            _LOGGER.warning(f"EV Charge Monitor: invalid values – kwh={charger_state.state}, price={price_state.state}")
             self._state = None
             return
 
         cost = kwh * spot_price
-
         if self._refund_enabled:
             refund = kwh * self._refund_rate
             cost -= refund
-            cost += self._monthly_sub / 30  # daglig abonnementsandel
+            cost += self._monthly_sub / 30
 
         self._state = round(cost, 2)
+        _LOGGER.info(f"EV Charge Monitor: cost calculated = {self._state}")
